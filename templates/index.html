@@ -1,0 +1,59 @@
+{% extends 'base/base.html' %}
+{% block content %}
+    <div class="container bg-light p-5 rounded min-vh-100">
+        <div class="progress invisible" id="progress">
+            <div class="progress-bar progress-bar-striped progress-bar-animated w-25" role="progressbar" id="progressbar"></div>
+        </div>
+        <div class="row justify-content-center text-center">
+            <h1>
+                Urban Dictionary
+            </h1>            
+        </div>
+        <div class="row  text-center row-gap-3">
+            <form class="d-flex justify-content-center flex-column align-items-center" method="POST" action="/">
+                {{ form.csrf_token }}
+                {{ form.searchBar(class='w-75 form-control text-center')}}
+                {{ form.submit(class='w-25 mt-2 btn btn-primary text-light') }}            
+            </form>
+        </div>
+        <div id="definition invisible">
+            <div class="row justify-content-start">
+                {% if searchQuery %}
+                    <h3>
+                        {{searchQuery}} - Definition
+                    </h3>                    
+                {% endif %}
+            </div>
+            <ol class="row justify-content-start fs-3">
+                {% for definition in definitions %}
+                    <li>
+                        {{definition}}
+                    </li>
+                {% endfor %}
+            </ol>
+        </div>
+    </div>
+
+
+    <script>
+        const progress = document.getElementById('progress')
+        const progressBar = document.getElementById('progressbar')
+        const definition = document.getElementById('definition')
+        const searchBar = document.getElementById('searchBar')
+        const submit = document.getElementById('submit')
+        
+        submit.addEventListener('click', ()=>{
+            progressBar.classList.remove('w-25')
+            progressBar.classList.add('w-75')
+            if(searchBar.value){                
+                progress.classList.remove('invisible')
+                if (definition){
+                    definition.classList.remove('invisible')
+                }                
+            }
+        })
+        window.addEventListener('beforeunload', () => {
+            progressBar.classList.add('w-100');
+          });
+    </script>
+{% endblock %}
