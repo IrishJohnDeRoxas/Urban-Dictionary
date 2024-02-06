@@ -8,6 +8,9 @@ import os, utils
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
+if __name__ == '__main__':
+    app.run(debug=True)
+    
 load_dotenv()
 
 class searchForm(FlaskForm):
@@ -29,4 +32,3 @@ def index():
         
     return render_template('index.html',
                            form=form)
-# Urban Dictionary
